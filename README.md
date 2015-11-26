@@ -1,7 +1,7 @@
 # Firefox-Web-App-Final-Project
 Web App Final project on Firefox OS 
 
-An Final Project on Web App class in NCU  
+An Final Project on Web App class in NCU    
 I am going to write a small HTML5 game.  
 i hope you will like it
 
@@ -12,8 +12,8 @@ i hope you will like it
 會依時間的增加，增加球的數目、速度。  
 依照存活時間，判斷rank  
 
-為了增加遊戲趣味度，希望在未來能增加的幾項功能
-1. 依時間增加，增加球的種類(用顏色區分)
-如果被某些種類的球撞擊，不會死，但是會用5倍速度朝遭撞擊的反方向衝去
-2. 被某些球撞擊之後， 會變大或變小。
-3. 被某些球撞擊之後，變得不具彈碰性質，直接穿越邊界，並從另一邊出現
+為了增加遊戲趣味度，希望在未來能增加的幾項功能  
+1. 依時間增加，增加球的種類(用顏色區分)  
+如果被某些種類的球撞擊，不會死，但是會用5倍速度朝遭撞擊的反方向衝去  
+2. 被某些球撞擊之後， 會變大或變小。  
+3. 被某些球撞擊之後，變得不具彈碰性質，直接穿越邊界，並從另一邊出現  
