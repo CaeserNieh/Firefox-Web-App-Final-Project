@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title> move the border</title>
+        <style>
+          #myCanvas{
+            border:1px solid black;
+          }
+        </style>
+    </head>
+    <body>
+        <canvas id="myCanvas" width="400",height="400">
+        </canvas>
+
+        <script>
+            var c = document.getElementById("myCanvas");
+            var ctx = c.getContext("2d");
+
+            var startX = 10;
+            var startY = 10;
+            var wallLineWidth = 10;
+            var wallColor = "#AAAAAA"
+
+            var wallWidth = c.width - wallLineWidth*2;
+            var wallHeight = c.height - wallLineWidth*2;
+
+            var topBound = startY + wallLineWidth
+            
+
+
+            
+
+
+            var boardWidth = 60;
+            var boardStart = Math.floor(Math.random()*(wallWidth - wallLineWidth-boardWidth))+15;
+
+            function drawBoard(){
+              ctx.strokeStyle = "blue";
+              ctx.beginPath();
+              ctx.moveTo(boardStart,c.height - wallLineWidth);
+              ctx.lineTo(boardStart + boardWidth,c.height - wallLineWidth);
+              ctx.closePath();
+              ctx.stroke();
+            }
+
+            var boardLeftBound = leftBound;
+            var boardRightBound = rightBound - boardWidth;
+            var unit = 10;
+
+            window.onkeydown = function(event){
+              alert(event.keyCode);
+              switch(event.keyCode){
+                case 37 : 
+                  moveBoard( -unit );
+                  break;
+                case 39 : 
+                  moveBoard(unit);
+              }
+            };
+
+            function moveBoard(unit){
+              ctx.fillStyle = wallColor;
+              ctx.fillRect(boardStart,c.height - wallWidth*1.5,boardWidth,wallLineWidth);
+              boardStart = boardStart + unit;
+
+              if(boardStart < boardLeftBound){
+                boardStart = boardLeftBound;
+              }else if(boardStart > boardRightBound){
+                boardStart = boardRightBound;
+              }
+
+              drawBoard();
+            }
+            drawWall();
+            drawBall();
+            setTimeout(moveBall,200);
+            drawBoard();
+
+        </script>
+    </body>
+        
+
+</html>
