@@ -3,10 +3,12 @@ Web App Final project on Firefox OS
 
 An Final Project on Web App class in NCU
 I am going to write a small HTML5 game, i hope you will like it
+
 遊戲內容 : 
-一顆玩家操縱的球在框中，試圖躲避其他球的撞擊
-球在框中均是完全彈性碰撞。
-會依時間的增加，增加球的數目、速度。
+
+#一顆玩家操縱的球在框中，試圖躲避其他球的撞擊
+#球在框中均是完全彈性碰撞。
+#會依時間的增加，增加球的數目、速度。
 
 依照存活時間，判斷rank
 
