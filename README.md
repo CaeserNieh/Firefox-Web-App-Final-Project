@@ -1,7 +1,7 @@
 # Firefox-Web-App-Final-Project
 Web App Final project on Firefox OS 
 
-An Final Project on Web App class in NCU    
+A Final Project on Web App class in NCU    
 I am going to write a small HTML5 game.  
 i hope you will like it
 
