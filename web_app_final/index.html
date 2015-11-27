@@ -1,84 +1,160 @@
 <!doctype html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title> move the border</title>
-        <style>
-          #myCanvas{
-            border:1px solid black;
+  <head>
+    <meta charset="utf-8">
+    <title>border</title>
+    <style>
+      #myCanvas{
+        border : 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="400" height="600">
+    </canvas>
+
+    <button type = "button" id = "up" onclick = "btn_up()">up</button>
+    <button type = "button" id = "dowm" onclick = "btn_down()">down</button>
+    <button type = "button" id = "right" onclick = "btn_right()">right</button>
+    <button type = "button" id = "left" onclick = "btn_left()">left</button>
+
+
+    <script>
+      var c = document.getElementById("myCanvas");
+      var ctx = c.getContext("2d");
+
+      var startX = 10;
+      var startY = 10;
+      var wallLineWidth = 10;
+      var wallColor = "#AAAAAA";
+
+      var wallWidth = c.width - wallLineWidth*2;
+      var wallHeight = c.height - wallLineWidth*2;
+
+      var topBound = startY +  wallLineWidth/2;
+      var bottomBound = startY + wallHeight - wallLineWidth/2;
+      var leftBound = startX + wallLineWidth/2;
+      var rightBound = startX + wallWidth - wallLineWidth/2;
+
+      
+
+
+      function drawWall(){
+        ctx.strokeStyle = wallColor;
+        ctx.lineWidth = wallLineWidth;
+        ctx.strokeRect(startX,startY,wallWidth,wallHeight);
+      }
+
+      var ballX = 300;
+      var ballY = 100;
+      var ballR = 10;
+
+      function drawBall(){
+        ctx.fillStyle = "red";
+        ctx.beginPath();
+        ctx.arc(ballX,ballY,ballR,0,2*Math.PI);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      var speedX = 10;
+      var speedY = 20;
+
+      var ballTopBound = topBound + ballR;
+      var ballBottomBound = bottomBound - ballR;
+      var ballLeftBound = leftBound + ballR;
+      var ballRightBound = rightBound - ballR;
+
+      function moveBall(){
+        ctx.clearRect(ballX - ballR,ballY - ballR,ballR*2,ballR*2);
+        ballX = ballX + speedX;
+        ballY = ballY + speedY;
+
+        if(ballX <= ballLeftBound){
+          var dx = ballLeftBound - (ballX - speedX);
+          ballX = ballLeftBound;
+
+          var dy = Math.round((dx/speedX)*speedY);
+          ballY = (ballY - speedY) + dy;
+
+          speedX = -speedX;
+        }else if(ballX >= ballRightBound){
+          var dx = ballRightBound - (ballX - speedX);
+          ballX = ballRightBound ;
+          var dy = Math.round((dx/speedX) *speedY);
+          ballY = ballY - speedY + dy;
+          speedX = -speedX;
+        }
+        if(ballY <= ballTopBound){
+          var dy = ballTopBound - (ballY - speedY);
+          ballY = ballTopBound;
+          var dx =  Math.round((dy/speedY) * speedX);
+          ballX = ballX -speedX + dx;
+          speedY = -speedY;   
+        }else if(ballY >= ballBottomBound){
+          var dy = ballBottomBound - (ballY - speedY);
+          ballY = ballBottomBound;
+          var dx = Math.round((dy/speedY) * speedX);
+          ballX = ballX - speedX + dx;
+          speedY = -speedY;
+        }
+        drawBall();
+        setTimeout(moveBall,200);
+
+      }
+
+      var p_ballX = 200;
+      var p_ballY = 300;
+      var p_ballR = 10;
+      function drawp_ball(){
+        ctx.fillStyle = "blue";
+        ctx.beginPath();
+        ctx.arc(p_ballX,p_ballY,p_ballR,0,2*Math.PI);
+        ctx.closePath();
+        ctx.fill();
+      }
+      var p_unit_x = 10;
+      var p_unit_y = 10;
+      function btn_up(){
+        move_p_ball(0,-p_unit_y);
+      }
+      function btn_down(){
+        move_p_ball(0,p_unit_y);
+      }
+      function btn_right(){
+        move_p_ball(p_unit_x,0);
+      }
+      function btn_left(){
+        move_p_ball(-p_unit_x,0);
+      }
+
+      function move_p_ball(unit_x,unit_y){
+        ctx.clearRect(p_ballX - p_ballR,p_ballY - p_ballR,p_ballR*2,p_ballR*2);
+          p_ballX = p_ballX + unit_x;
+          if(p_ballX <= ballLeftBound){
+            var p_dx = ballLeftBound - (p_ballX - unit_x);
+            p_ballX = ballLeftBound
+          }else if(p_ballX >= ballRightBound){
+            var p_dx = ballRightBound - (p_ballX - unit_x);
+            p_ballX = ballRightBound;
           }
-        </style>
-    </head>
-    <body>
-        <canvas id="myCanvas" width="400",height="400">
-        </canvas>
 
-        <script>
-            var c = document.getElementById("myCanvas");
-            var ctx = c.getContext("2d");
-
-            var startX = 10;
-            var startY = 10;
-            var wallLineWidth = 10;
-            var wallColor = "#AAAAAA"
-
-            var wallWidth = c.width - wallLineWidth*2;
-            var wallHeight = c.height - wallLineWidth*2;
-
-            var topBound = startY + wallLineWidth
-            
+          p_ballY = p_ballY + unit_y;
+          if(p_ballY <= ballTopBound){
+            var p_dy = ballTopBound - (p_ballY - unit_y);
+            p_ballY = ballTopBound
+          }else if(p_ballY >= ballBottomBound){
+            var p_dy = ballBottomBound - (p_ballY - unit_y);
+            p_ballY = ballBottomBound;
+          }
+          drawp_ball();
+      }
 
 
-            
-
-
-            var boardWidth = 60;
-            var boardStart = Math.floor(Math.random()*(wallWidth - wallLineWidth-boardWidth))+15;
-
-            function drawBoard(){
-              ctx.strokeStyle = "blue";
-              ctx.beginPath();
-              ctx.moveTo(boardStart,c.height - wallLineWidth);
-              ctx.lineTo(boardStart + boardWidth,c.height - wallLineWidth);
-              ctx.closePath();
-              ctx.stroke();
-            }
-
-            var boardLeftBound = leftBound;
-            var boardRightBound = rightBound - boardWidth;
-            var unit = 10;
-
-            window.onkeydown = function(event){
-              alert(event.keyCode);
-              switch(event.keyCode){
-                case 37 : 
-                  moveBoard( -unit );
-                  break;
-                case 39 : 
-                  moveBoard(unit);
-              }
-            };
-
-            function moveBoard(unit){
-              ctx.fillStyle = wallColor;
-              ctx.fillRect(boardStart,c.height - wallWidth*1.5,boardWidth,wallLineWidth);
-              boardStart = boardStart + unit;
-
-              if(boardStart < boardLeftBound){
-                boardStart = boardLeftBound;
-              }else if(boardStart > boardRightBound){
-                boardStart = boardRightBound;
-              }
-
-              drawBoard();
-            }
-            drawWall();
-            drawBall();
-            setTimeout(moveBall,200);
-            drawBoard();
-
-        </script>
-    </body>
-        
-
-</html>
+      drawWall();
+      drawBall();
+      setTimeout(moveBall,200);
+      drawp_ball();
+    </script>
+  </body>
+</html> 
