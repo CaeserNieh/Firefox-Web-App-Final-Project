@@ -1,160 +1,187 @@
-<!doctype html>
+<!DOCTYPE HTML>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>border</title>
-    <style>
-      #myCanvas{
-        border : 1px solid black;
-      }
-    </style>
-  </head>
-  <body>
-    <canvas id="myCanvas" width="400" height="600">
-    </canvas>
+	<head>
 
-    <button type = "button" id = "up" onclick = "btn_up()">up</button>
-    <button type = "button" id = "dowm" onclick = "btn_down()">down</button>
-    <button type = "button" id = "right" onclick = "btn_right()">right</button>
-    <button type = "button" id = "left" onclick = "btn_left()">left</button>
+	
+	</head>
+	<body>
+			<canvas id="ball" width="400" height="600" style=" border:2px"></canvas>
+			<button type = "button" id = "up" onclick = "btn_up()">up</button>
+   			 <button type = "button" id = "dowm" onclick = "btn_down()">down</button>
+    			<button type = "button" id = "right" onclick = "btn_right()">right</button>
+    			<button type = "button" id = "left" onclick = "btn_left()">left</button>
 
 
-    <script>
-      var c = document.getElementById("myCanvas");
-      var ctx = c.getContext("2d");
+    			<script>
+			var canvas = document.getElementById("ball");
+			var cxt = canvas.getContext("2d");
 
-      var startX = 10;
-      var startY = 10;
-      var wallLineWidth = 10;
-      var wallColor = "#AAAAAA";
+			var cxt2 = canvas.getContext("2d");
 
-      var wallWidth = c.width - wallLineWidth*2;
-      var wallHeight = c.height - wallLineWidth*2;
+			var r=10;
+			var maxNum=5;
+			var ballArray=new Array();
+			alert("test1");
+			var maxX=canvas.width;
+			var maxY=canvas.height;
 
-      var topBound = startY +  wallLineWidth/2;
-      var bottomBound = startY + wallHeight - wallLineWidth/2;
-      var leftBound = startX + wallLineWidth/2;
-      var rightBound = startX + wallWidth - wallLineWidth/2;
+			function getRandomColor(){
+  				return (function(m,s,c){
+    					return (c ? arguments.callee(m,s,c-1) : '#')  + s[m.floor(m.random() * 16)]
+  				})(Math,'0123456789abcdef',5)
+ 			}
+ 			function getRandomNumber(min, max) {
+            			return (min + Math.floor(Math.random() * (max - min + 1)))
+       			 }
 
-      
-
-
-      function drawWall(){
-        ctx.strokeStyle = wallColor;
-        ctx.lineWidth = wallLineWidth;
-        ctx.strokeRect(startX,startY,wallWidth,wallHeight);
-      }
-
-      var ballX = 300;
-      var ballY = 100;
-      var ballR = 10;
-
-      function drawBall(){
-        ctx.fillStyle = "red";
-        ctx.beginPath();
-        ctx.arc(ballX,ballY,ballR,0,2*Math.PI);
-        ctx.closePath();
-        ctx.fill();
-      }
-
-      var speedX = 10;
-      var speedY = 20;
-
-      var ballTopBound = topBound + ballR;
-      var ballBottomBound = bottomBound - ballR;
-      var ballLeftBound = leftBound + ballR;
-      var ballRightBound = rightBound - ballR;
-
-      function moveBall(){
-        ctx.clearRect(ballX - ballR,ballY - ballR,ballR*2,ballR*2);
-        ballX = ballX + speedX;
-        ballY = ballY + speedY;
-
-        if(ballX <= ballLeftBound){
-          var dx = ballLeftBound - (ballX - speedX);
-          ballX = ballLeftBound;
-
-          var dy = Math.round((dx/speedX)*speedY);
-          ballY = (ballY - speedY) + dy;
-
-          speedX = -speedX;
-        }else if(ballX >= ballRightBound){
-          var dx = ballRightBound - (ballX - speedX);
-          ballX = ballRightBound ;
-          var dy = Math.round((dx/speedX) *speedY);
-          ballY = ballY - speedY + dy;
-          speedX = -speedX;
-        }
-        if(ballY <= ballTopBound){
-          var dy = ballTopBound - (ballY - speedY);
-          ballY = ballTopBound;
-          var dx =  Math.round((dy/speedY) * speedX);
-          ballX = ballX -speedX + dx;
-          speedY = -speedY;   
-        }else if(ballY >= ballBottomBound){
-          var dy = ballBottomBound - (ballY - speedY);
-          ballY = ballBottomBound;
-          var dx = Math.round((dy/speedY) * speedX);
-          ballX = ballX - speedX + dx;
-          speedY = -speedY;
-        }
-        drawBall();
-        setTimeout(moveBall,200);
-
-      }
-
-      var p_ballX = 200;
-      var p_ballY = 300;
-      var p_ballR = 10;
-      function drawp_ball(){
-        ctx.fillStyle = "blue";
-        ctx.beginPath();
-        ctx.arc(p_ballX,p_ballY,p_ballR,0,2*Math.PI);
-        ctx.closePath();
-        ctx.fill();
-      }
-      var p_unit_x = 10;
-      var p_unit_y = 10;
-      function btn_up(){
-        move_p_ball(0,-p_unit_y);
-      }
-      function btn_down(){
-        move_p_ball(0,p_unit_y);
-      }
-      function btn_right(){
-        move_p_ball(p_unit_x,0);
-      }
-      function btn_left(){
-        move_p_ball(-p_unit_x,0);
-      }
-
-      function move_p_ball(unit_x,unit_y){
-        ctx.clearRect(p_ballX - p_ballR,p_ballY - p_ballR,p_ballR*2,p_ballR*2);
-          p_ballX = p_ballX + unit_x;
-          if(p_ballX <= ballLeftBound){
-            var p_dx = ballLeftBound - (p_ballX - unit_x);
-            p_ballX = ballLeftBound
-          }else if(p_ballX >= ballRightBound){
-            var p_dx = ballRightBound - (p_ballX - unit_x);
-            p_ballX = ballRightBound;
-          }
-
-          p_ballY = p_ballY + unit_y;
-          if(p_ballY <= ballTopBound){
-            var p_dy = ballTopBound - (p_ballY - unit_y);
-            p_ballY = ballTopBound
-          }else if(p_ballY >= ballBottomBound){
-            var p_dy = ballBottomBound - (p_ballY - unit_y);
-            p_ballY = ballBottomBound;
-          }
-          drawp_ball();
-      }
+			for(var n=0;n<maxNum;n++){
+				var x={
+					x:getRandomNumber(r, maxX-r),
+					y:getRandomNumber(r, maxY-r),
+					r:r,
+					vX:getRandomNumber(0.5, 1),
+					 vY:getRandomNumber(0.5,1),
+					color:getRandomColor(),
+				}
+				ballArray.push(x);
+			}
+			
+ 			function drawWall(){
+ 				//alert("test2");
+ 				cxt.fillStyle = "#000";
+ 				cxt.fillRect(0,0,canvas.width,canvas.height);
+ 			}
+ 			
 
 
-      drawWall();
-      drawBall();
-      setTimeout(moveBall,200);
-      drawp_ball();
-    </script>
-  </body>
-</html> 
+
+
+
+
+
+ 			var p_ballX = 200;
+		      	var p_ballY = 300;
+		      	var p_ballR = 10;
+		      	function drawp_ball(){
+		        		cxt2.fillStyle = "white";
+		        		cxt2.beginPath();
+		        		cxt2.arc(p_ballX,p_ballY,p_ballR,0,2*Math.PI);
+		        		cxt2.closePath();
+		        		cxt2.fill();
+		      	}
+		     	var p_unit_x = 10;
+		      	var p_unit_y = 10;
+		      	function btn_up(){
+		       		move_p_ball(0,-p_unit_y);
+		      	}
+		      	function btn_down(){
+		        		move_p_ball(0,p_unit_y);
+		      	}
+		      	function btn_right(){
+		       		 move_p_ball(p_unit_x,0);
+		      	}
+		      	function btn_left(){
+		        		move_p_ball(-p_unit_x,0);
+		      	}
+
+      			function move_p_ball(unit_x,unit_y){
+        				cxt.clearRect(p_ballX - p_ballR,p_ballY - p_ballR,p_ballR*2,p_ballR*2);
+          			p_ballX = p_ballX + unit_x;
+          			if(p_ballX <= r){
+            				p_ballX = r
+          			}else if(p_ballX >= maxX-r){
+            				p_ballX = maxX-r;
+          			}
+          			p_ballY = p_ballY + unit_y;
+          			if(p_ballY <= r){
+            				p_ballY = r
+         				 }else if(p_ballY >= maxY-r){
+            				p_ballY = maxY-r;
+          			}
+         				 drawp_ball();
+      			}
+
+
+
+      			var life
+
+
+ 			function drawBall(){
+ 				//alert("test3");
+ 				drawWall();
+ 				drawp_ball();
+ 				for (i in ballArray){
+					var x=i;		
+					ballArray[i].x+=ballArray[i].vX;
+					ballArray[i].y+=ballArray[i].vY;
+					
+
+
+
+					if(ballArray[i].x>=maxX-r){
+						ballArray[i].x=maxX-r;
+						ballArray[i].vX=-ballArray[i].vX;
+					}
+					if(ballArray[i].x<=r){
+						ballArray[i].x=r;
+						ballArray[i].vX=-ballArray[i].vX;
+					}			
+					if(ballArray[i].y>=maxY-r){
+						ballArray[i].y=maxY-r;
+						ballArray[i].vY=-ballArray[i].vY;
+					}
+					if(ballArray[i].y<=r){
+						ballArray[i].y=r;
+						ballArray[i].vY=-	ballArray[i].vY;
+					}
+
+					for(var j=0;j<maxNum;j++)
+						if(j!==x){
+							if(Math.round(Math.pow(ballArray[x].x-ballArray[j].x,2)+
+								Math.pow(ballArray[x].y-ballArray[j].y,2)) <= 
+								 Math.round(Math.pow(r+r,2)))	                         	                    
+							{
+												
+								var tempX=ballArray[x].vX;
+								var tempY=ballArray[x].vY;
+								 ballArray[x].vX=ballArray[j].vX;
+								 ballArray[j].vX=tempX;
+								ballArray[x].vY=ballArray[j].vY;
+								ballArray[j].vY=tempY;
+							}
+						}
+
+					for(var k = 0;k<maxNum;k++){
+						if(Math.round(Math.pow(ballArray[k].x-p_ballX,2) + 
+							Math.pow(ballArray[k].y-p_ballY,2)) <= Math.round(Math.pow(p_ballR+r,2))){
+							alert("you lose!!!!");
+							continue;
+						}
+					}
+
+					cxt.beginPath();		
+					cxt.fillStyle=ballArray[i].color;
+						//drawp_ball();	
+					cxt.arc(ballArray[i].x,ballArray[i].y,ballArray[i].r,0,Math.PI*2,true);
+					cxt.closePath();
+					cxt.fill();
+				}
+
+				setTimeout(function(){drawBall();},5);
+ 			}
+
+
+ 			
+
+
+
+ 			drawWall();
+ 			drawBall();
+
+
+					
+
+		</script>
+	</body>
+</html>
+
