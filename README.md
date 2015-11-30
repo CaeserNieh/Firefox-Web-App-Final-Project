@@ -5,6 +5,8 @@ A Final Project on Web App class in NCU
 I am going to write a small HTML5 game.  
 i hope you will like it
 
+Thanks!!    
+
 遊戲內容 :  
 
 一顆玩家操縱的球在框中，試圖躲避其他球的撞擊  
